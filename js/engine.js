@@ -1,7 +1,10 @@
 /* Engine.js
- * This file provides the game loop functionality (update entities and render),
- * draws the initial game board on the screen, and then calls the update and
- * render methods on your player and enemy objects (defined in your app.js).
+ *  This file
+ *  (1) draws the initial game board on the screen,
+ *  and then
+ *  (2) calls the update and render methods on both player and enemy objects which are defined in app.js.
+ *
+ *
  *
  * A game engine works by drawing the entire game screen over and over, kind of
  * like a flipbook you may have created as a kid. When your player moves across
@@ -23,6 +26,7 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        collision = false,
         lastTime;
 
     canvas.width = 505;
@@ -32,6 +36,7 @@ var Engine = (function(global) {
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
+
     function main() {
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
@@ -78,9 +83,15 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+
     function update(dt) {
+
+        if (collision) {
+            player.setPlayerToStart();
+            collision = false;
+        }
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -95,6 +106,25 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    function checkCollisions() {
+
+        var x = player.currentX;
+        var y = player.currentY;
+        for (var i = 0; i < allEnemies.length; i++) {
+
+            var enemyX = allEnemies[i].currentX;
+            var enemyY = allEnemies[i].currentY;
+            if ( x > (enemyX - 55) && x < (enemyX + 55) && y > (enemyY - 50) && y < (enemyY + 50) ) {
+                console.log("collision");
+                collision = true;
+                break;
+            }
+            else {
+                console.log("no collision");
+            }
+        }
     }
 
     /* This function initially draws the "game level", it will then call
@@ -172,8 +202,7 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/char-cat-girl.png' +
-        ''
+        'images/char-horn-girl.png'
     ]);
     Resources.onReady(init);
 
