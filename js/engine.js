@@ -86,12 +86,15 @@ var Engine = (function(global) {
 
     function update(dt) {
 
-        if (collision) {
-            player.setPlayerToStart();
-            collision = false;
-        }
-        updateEntities(dt);
-        checkCollisions();
+        game.update(dt);
+
+        //if (collision) {
+        //    // TODO: put this in the game
+        //    player.setPlayerToStartPosition();
+        //    collision = false;
+        //}
+        //game.update(dt);
+        //game.checkForCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -102,33 +105,34 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
-        });
-        player.update();
+        game.update(dt);
+        //allEnemies.forEach(function(enemy) {
+        //    enemy.update(dt);
+        //});
+        //player.update();
     }
 
-    function checkCollisions() {
-
-        var x = player.currentX;
-        var y = player.currentY;
-        for (var i = 0; i < allEnemies.length; i++) {
-
-            var enemyX = allEnemies[i].currentX;
-            var enemyY = allEnemies[i].currentY;
-            if ( x > (enemyX - 55) && x < (enemyX + 55) && y > (enemyY - 50) && y < (enemyY + 50) ) {
-                console.log("collision");
-                collision = true;
-                break;
-            }
-            else {
-                console.log("no collision");
-            }
-        }
-    }
+    //function checkCollisions() {
+    //
+    //    var x = player.currentX;
+    //    var y = player.currentY;
+    //    for (var i = 0; i < allEnemies.length; i++) {
+    //
+    //        var enemyX = allEnemies[i].currentX;
+    //        var enemyY = allEnemies[i].currentY;
+    //        if ( x > (enemyX - 55) && x < (enemyX + 55) && y > (enemyY - 50) && y < (enemyY + 50) ) {
+    //            //console.log("collision");
+    //            collision = true;
+    //            break;
+    //        }
+    //        //else {
+    //        //    console.log("no collision");
+    //        //}
+    //    }
+    //}
 
     /* This function initially draws the "game level", it will then call
-     * the renderEntities function. Remember, this function is called every
+     * the Entities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
@@ -177,11 +181,13 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
+        //allEnemies.forEach(function(enemy) {
+        //    enemy.render();
+        //});
+        //
+        //player.render();
 
-        player.render();
+        game.render();
     }
 
     /* This function does nothing but it could have been a good place to
