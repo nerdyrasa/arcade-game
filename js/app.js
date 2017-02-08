@@ -1,33 +1,38 @@
+/**************************************************************
 
-// A game has a player, an array of enemies and a score.
+      Game
+
+***************************************************************/
 
 // Game Constructor
-var Game = function(document) {
+var Game = function(character) {
 
-  var score = 0;
-
-  this.winningScore = 1;
+  this.winningScore = 3;
   this.collision = false;
 
-  //this.score = 0;
-  this.gameOver = false;
+  // Construct a player.
+  console.log("construct player with ", character);
+  this.player = new Player(character);
 
-  // construct player
-  this.player = new Player();
-
-  // Listen for the keyup event
-
-
-  // contruct enemies
+  // Construct Enemies -- Easy
+  // TODO: Allow user to select a difficulty level.
   this.allEnemies = [
-    //new Enemy(-100, enemyPosition.topRow, enemySpeed.one),
-    //new Enemy(-350, enemyPosition.topRow, enemySpeed.three),
-    //new Enemy(-200, enemyPosition.middleRow, enemySpeed.four),
-    //new Enemy(-550, enemyPosition.middleRow, enemySpeed.two),
-    //new Enemy(-300, enemyPosition.middleRow, enemySpeed.seven),
-    //new Enemy(-850, enemyPosition.bottomRow, enemySpeed.three),
+    new Enemy(-350, enemyPosition.topRow, enemySpeed.three),
+    new Enemy(-550, enemyPosition.middleRow, enemySpeed.two),
     new Enemy(-400, enemyPosition.bottomRow, enemySpeed.eight)
   ];
+
+  // Construct Enemies -- Harder
+/*  this.allEnemies = [
+    new Enemy(-100, enemyPosition.topRow, enemySpeed.one),
+    new Enemy(-350, enemyPosition.topRow, enemySpeed.three),
+    new Enemy(-200, enemyPosition.middleRow, enemySpeed.four),
+    new Enemy(-550, enemyPosition.middleRow, enemySpeed.two),
+    new Enemy(-300, enemyPosition.middleRow, enemySpeed.seven),
+    new Enemy(-850, enemyPosition.bottomRow, enemySpeed.three),
+    new Enemy(-400, enemyPosition.bottomRow, enemySpeed.eight)
+  ];*/
+
 };
 
 Game.prototype.update = function(dt) {
@@ -45,18 +50,8 @@ Game.prototype.update = function(dt) {
   // TODO: Update score.
 };
 
-Game.prototype.updateScore = function(points) {
-  this.score += points;
-
-  if (this.score >= this.winningScore) {
-    this.gameOver = true;
-  }
-
-}
-
 Game.prototype.render = function(){
 
-  // rendering here, not in the engine
   this.allEnemies.forEach(function(enemy) {
     enemy.render();
   });
@@ -64,17 +59,16 @@ Game.prototype.render = function(){
 
   ctx.font = '24pt Impact';
   ctx.textAlign = 'center';
-  ctx.strokeStyle = 'black';
-  ctx.lineWidth = 3;
+  //ctx.strokeStyle = 'black';
+  //ctx.lineWidth = 3;
   ctx.fillStyle = 'red';
 
   var scoreLine = "Score: " + this.player.score;
 
-  if (scoreLine != null) {
+  if (scoreLine !== null) {
     ctx.fillText(scoreLine, 100, 530 );
- //   ctx.strokeText(scoreLine, 50, 500 );
   }
-}
+};
 
 Game.prototype.checkForCollisions = function(){
     //console.log("checking for collisions");
@@ -97,22 +91,26 @@ Game.prototype.checkForCollisions = function(){
     }
 };
 
+/**************************************************************
+
+     Enemy
+
+***************************************************************/
+
+
 // Constructor
 // An Enemy is an object that a Player object must avoid
 var Enemy = function(x, y, speed) {
 
     // The image/sprite for our enemies
     this.sprite = 'images/enemy-bug.png';
-
     this.initialX = x;
     this.initialY = y;
     this.currentX = x;
     this.currentY = y;
     this.stepX = 0;
-
     this.rightBoundary = 500;
     this.speed = speed;
-
 };
 
 // 1. Update function.
@@ -135,45 +133,62 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.currentX, this.currentY);
 };
 
+// Enumerate enemy positions.
+var enemyPosition = {
+  topRow: 65,
+  middleRow: 145,
+  bottomRow: 225
+};
+
+// Enumerate enemy speeds
+var enemySpeed = {
+  one: 35,
+  two: 45,
+  three: 55,
+  four: 70,
+  five: 90,
+  six: 110,
+  seven: 145,
+  eight: 160
+};
+
+/**************************************************************
+
+     Player
+
+***************************************************************/
+
 // constructor
 // The Player object is moved using the up, down, left and right arrow keys.
 // The object of the game is to avoid collisions with Enemy objects.
-var Player = function() {
+var Player = function(character) {
 
-    //this.sprite = 'images/char-horn-girl.png';
-    this.sprite = 'images/char-boy.png';
+    // TODO: Check is character has a value. If not, assign a default value.
+    // this.sprite = 'images/char-boy.png';
+
+    this.sprite = character;
     this.initialX = 200;
     this.initialY = 310;
     this.currentX = 200;
     this.currentY = 310;
-
     this.topBoundary = 72;
     this.bottomBoundary = 328;
     this.leftBoundary = 10;
     this.rightBoundary = 390;
     this.stepY = 85;
     this.stepX = 97;
-
     this.score = 0;
 };
 
-// 1. update
 Player.prototype.update = function() {
-
+  // no operations
 };
 
-// 2. render
-// Draw the player on to the canvas using the current x and y coordinates
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.currentX, this.currentY);
 };
 
-// Move the Player up, down, left and right. Check that the Player is on the
-// playing canvas.
 Player.prototype.handleInput = function(key) {
-
-
-  console.log(this);
 
   switch(key) {
     case 'up':
@@ -183,13 +198,7 @@ Player.prototype.handleInput = function(key) {
         this.currentY -= this.stepY;
       } else {
         this.currentY = this.initialY;
-        console.log("incrementing score");
-        //this.score += 1;
-
-        //Game.updateScore(1);
         this.score += 1;
-
-        console.log("score is ", this.score);
       }
       break;
     case 'down':
@@ -219,58 +228,8 @@ Player.prototype.setPlayerToStartPosition = function() {
   this.currentY = this.initialY;
 };
 
-// enumerate enemy positions
-var enemyPosition = {
-  topRow: 65,
-  middleRow: 145,
-  bottomRow: 225
-};
-
-// enumerate enemy speeds
-var enemySpeed = {
-  one: 35,
-  two: 45,
-  three: 55,
-  four: 70,
-  five: 90,
-  six: 110,
-  seven: 145,
-  eight: 160
-};
-
-// enemies are now in the game
-// All enemy objects are placed in an array called allEnemies
-//var allEnemies = [
-//  new Enemy(-50, enemyPosition.topRow, enemySpeed.one),
-//  new Enemy(-250, enemyPosition.topRow, enemySpeed.three),
-//  new Enemy(-50, enemyPosition.middleRow, enemySpeed.four),
-//  new Enemy(-50, enemyPosition.middleRow, enemySpeed.two),
-//  new Enemy(-500, enemyPosition.middleRow, enemySpeed.seven),
-//  new Enemy(-50, enemyPosition.bottomRow, enemySpeed.three),
-//  new Enemy(-100, enemyPosition.bottomRow, enemySpeed.eight)
-//];
 
 
-var game = new Game(document);
-
-// The player object is the variable called player
-// player is now in the game
-// var player = new Player();
-
-//  The up, down, left and right arrow keys are used for game play.
-//  Add an event handler to listen for the keyup event.
 
 
-// Listen for the keyup event
-
-//document.addEventListener('keyup', function(e) {
-//    var allowedKeys = {
-//        37: 'left',
-//        38: 'up',
-//        39: 'right',
-//        40: 'down'
-//    };
-//    console.log("keyup");
-//    game.player.handleInput(allowedKeys[e.keyCode]);
-//});
 

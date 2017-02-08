@@ -40,16 +40,33 @@ var Engine = (function(global) {
     canvas.className = "hide";
 
     var keyupHandler;
+    var characterSrc;
 
-    var playButton = doc.getElementById("start-play-btn");
-    playButton.addEventListener("click", function(){
-        // get rid of the start screen modal
+
+    // Select a character and start play
+    document.querySelector('.grid').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Get the character name
+        if (e.target.tagName === 'IMG') {
+
+            console.log(e);
+            console.log(e.target);
+            var x = e.target;
+            var par = e.target.parentNode;
+            par.className = 'active';
+            console.log(x.getAttribute('src'));
+            characterSrc = x.getAttribute('src');
+            console.log("characterSrc = ", characterSrc);
+        }
+         // get rid of the start screen modal
         var startModal = document.getElementById('start-play');
         startModal.className = "modal hide";
 
-        // get the selected character to pass to the Game constructor
+        // pass the selected character to the Game constructor
+        console.log(characterSrc);
+        game = new Game(characterSrc);
 
-        game = new Game();
         keyupHandler = function(e) {
               var allowedKeys = {
                   37: 'left',
@@ -60,8 +77,8 @@ var Engine = (function(global) {
               console.log("keyup");
               game.player.handleInput(allowedKeys[e.keyCode]);
         };
+
         doc.addEventListener('keyup', keyupHandler);
-        console.log("keyup");
 
         Resources.load([
             'images/stone-block.png',
@@ -69,10 +86,13 @@ var Engine = (function(global) {
             'images/grass-block.png',
             'images/enemy-bug.png',
             'images/char-boy.png',
-            'images/char-horn-girl.png'
+            'images/char-horn-girl.png',
+            'images/char-cat-girl.png',
+            'images/char-pink-girl.png',
+            'images/char-princess-girl.png'
         ]);
         Resources.onReady(init);
-        canvas.className = "";
+        canvas.className = "show";
 
     });
 
@@ -84,7 +104,7 @@ var Engine = (function(global) {
         gameEndScreen.className = "modal hide";
 
         console.log("clearing rect");
-        game = new Game();
+        game = new Game(characterSrc);
         keyupHandler = function(e) {
             var allowedKeys = {
                 37: 'left',
@@ -102,7 +122,7 @@ var Engine = (function(global) {
         renderEntities();
         init();
 
-        canvas.className = "";
+        canvas.className = "show";
     });
 
 
@@ -127,16 +147,14 @@ var Engine = (function(global) {
         if (game.player.score >= game.winningScore) {
 
             // game over
-
             console.log("you win");
             canvas.className = "hide";
             //var gameStartScreen = document.getElementById("start");
             //gameStartScreen.className = "hide";
             var gameEndScreen = doc.getElementById("end-play");
             gameEndScreen.className = "modal show";
-            doc.removeEventListener("keyup", keyupHandler);
             // remove event handler
-
+            doc.removeEventListener("keyup", keyupHandler);
 
         } else {
 
@@ -260,7 +278,6 @@ var Engine = (function(global) {
     function reset() {
         // noop
     }
-
 
     function startGame(){
         Resources.load([
