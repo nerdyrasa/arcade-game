@@ -3,18 +3,24 @@
 
 var Game = function() {
 
+  var score = 0;
+
+  this.winningScore = 2;
   this.collision = false;
+
+  //this.score = 0;
+  this.gameOver = false;
 
   // construct player
   this.player = new Player();
 
   // contruct enemies
   this.allEnemies = [
-    //new Enemy(-50, enemyPosition.topRow, enemySpeed.one),
+    new Enemy(-50, enemyPosition.topRow, enemySpeed.one),
     //new Enemy(-250, enemyPosition.topRow, enemySpeed.three),
-    //new Enemy(-50, enemyPosition.middleRow, enemySpeed.four),
+    new Enemy(-50, enemyPosition.middleRow, enemySpeed.four),
     //new Enemy(-50, enemyPosition.middleRow, enemySpeed.two),
-    //new Enemy(-500, enemyPosition.middleRow, enemySpeed.seven),
+    new Enemy(-500, enemyPosition.middleRow, enemySpeed.seven),
     //new Enemy(-50, enemyPosition.bottomRow, enemySpeed.three),
     new Enemy(-100, enemyPosition.bottomRow, enemySpeed.eight)
   ];
@@ -34,6 +40,15 @@ Game.prototype.update = function(dt) {
   }
   // TODO: Update score.
 };
+
+Game.prototype.updateScore = function(points) {
+  this.score += points;
+
+  if (this.score >= this.winningScore) {
+    this.gameOver = true;
+  }
+
+}
 
 Game.prototype.render = function(){
 
@@ -121,7 +136,8 @@ Enemy.prototype.render = function() {
 // The object of the game is to avoid collisions with Enemy objects.
 var Player = function() {
 
-    this.sprite = 'images/char-horn-girl.png';
+    //this.sprite = 'images/char-horn-girl.png';
+    this.sprite = 'images/char-boy.png';
     this.initialX = 200;
     this.initialY = 310;
     this.currentX = 200;
@@ -139,33 +155,21 @@ var Player = function() {
 
 // 1. update
 Player.prototype.update = function() {
-// Text attributes
-//  ctx.font = '30pt Impact';
-//  ctx.textAlign = 'center';
-//  ctx.strokeStyle = 'black';
-//  ctx.lineWidth = 3;
-//  ctx.fillStyle = 'white';
-//
-//  var scoreLine = "Score:  " + this.score;
-//
-//  if (scoreLine != null) {
-//    //void ctx.fillText(text, x, y [, maxWidth]);
-//    ctx.fillText(scoreLine, 200, 500 );
-//    ctx.strokeText(scoreLine, 50, 500 );
-//    //console.log("stroke Text ", bottomLine);
-//  }
+
 };
 
 // 2. render
 // Draw the player on to the canvas using the current x and y coordinates
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.currentX, this.currentY);
-
 };
 
 // Move the Player up, down, left and right. Check that the Player is on the
 // playing canvas.
 Player.prototype.handleInput = function(key) {
+
+
+  console.log(this);
 
   switch(key) {
     case 'up':
@@ -176,7 +180,11 @@ Player.prototype.handleInput = function(key) {
       } else {
         this.currentY = this.initialY;
         console.log("incrementing score");
+        //this.score += 1;
+
+        //Game.updateScore(1);
         this.score += 1;
+
         console.log("score is ", this.score);
       }
       break;

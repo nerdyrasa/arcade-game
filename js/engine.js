@@ -29,9 +29,23 @@ var Engine = (function(global) {
         collision = false,
         lastTime;
 
+    console.log("Engine this is ", this);
+
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+    canvas.className = "hide";
+    //var d = document.getElementById("div1");
+    //d.className += " otherclass";
+    var startButton = doc.getElementById("start-btn");
+    startButton.addEventListener("click", function(){
+        canvas.className = "";
+    });
+    //$("#start-btn").click(function() {
+    //    $("#start").hide();
+    //    $("#board").show();
+    //});
+
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -45,23 +59,35 @@ var Engine = (function(global) {
          * computer is) - hurray time!
          */
         var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+          dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);
-        render();
 
-        /* Set our lastTime variable which is used to determine the time delta
-         * for the next time this function is called.
-         */
-        lastTime = now;
+        if (this.game.player.score >= this.game.winningScore) {
+            console.log("you win");
+            canvas.className = "hide";
+            var gameStartScreen = document.getElementById("start");
+            gameStartScreen.className = "hide";
+            var gameEndScreen = doc.getElementById("end");
+            gameEndScreen.className = "";
 
-        /* Use the browser's requestAnimationFrame function to call this
-         * function again as soon as the browser is able to draw another frame.
-         */
-        win.requestAnimationFrame(main);
+        } else {
+
+            update(dt);
+            render();
+
+            /* Set our lastTime variable which is used to determine the time delta
+             * for the next time this function is called.
+             */
+            lastTime = now;
+
+            /* Use the browser's requestAnimationFrame function to call this
+             * function again as soon as the browser is able to draw another frame.
+             */
+            win.requestAnimationFrame(main);
+        }
     }
 
     /* This function does some initial setup that should only occur once,
@@ -112,24 +138,7 @@ var Engine = (function(global) {
         //player.update();
     }
 
-    //function checkCollisions() {
-    //
-    //    var x = player.currentX;
-    //    var y = player.currentY;
-    //    for (var i = 0; i < allEnemies.length; i++) {
-    //
-    //        var enemyX = allEnemies[i].currentX;
-    //        var enemyY = allEnemies[i].currentY;
-    //        if ( x > (enemyX - 55) && x < (enemyX + 55) && y > (enemyY - 50) && y < (enemyY + 50) ) {
-    //            //console.log("collision");
-    //            collision = true;
-    //            break;
-    //        }
-    //        //else {
-    //        //    console.log("no collision");
-    //        //}
-    //    }
-    //}
+
 
     /* This function initially draws the "game level", it will then call
      * the Entities function. Remember, this function is called every
