@@ -18,8 +18,8 @@ var Game = function(character) {
   // TODO: Allow user to select a difficulty level.
   this.allEnemies = [
     new Enemy(-350, enemyPosition.topRow, enemySpeed.seven),
-    new Enemy(-100, enemyPosition.topRow, enemySpeed.three),
-    new Enemy(-200, enemyPosition.middleRow, enemySpeed.two),
+    new Enemy(-100, enemyPosition.topRow, enemySpeed.five),
+    new Enemy(-200, enemyPosition.middleRow, enemySpeed.six),
     new Enemy(-100, enemyPosition.bottomRow, enemySpeed.eight)
   ];
 
