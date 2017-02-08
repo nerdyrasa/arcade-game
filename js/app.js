@@ -2,11 +2,11 @@
 // A game has a player, an array of enemies and a score.
 
 // Game Constructor
-var Game = function() {
+var Game = function(document) {
 
   var score = 0;
 
-  this.winningScore = 2;
+  this.winningScore = 1;
   this.collision = false;
 
   //this.score = 0;
@@ -15,15 +15,18 @@ var Game = function() {
   // construct player
   this.player = new Player();
 
+  // Listen for the keyup event
+
+
   // contruct enemies
   this.allEnemies = [
-    new Enemy(-50, enemyPosition.topRow, enemySpeed.one),
-    //new Enemy(-250, enemyPosition.topRow, enemySpeed.three),
-    new Enemy(-50, enemyPosition.middleRow, enemySpeed.four),
-    //new Enemy(-50, enemyPosition.middleRow, enemySpeed.two),
-    new Enemy(-500, enemyPosition.middleRow, enemySpeed.seven),
-    //new Enemy(-50, enemyPosition.bottomRow, enemySpeed.three),
-    new Enemy(-100, enemyPosition.bottomRow, enemySpeed.eight)
+    //new Enemy(-100, enemyPosition.topRow, enemySpeed.one),
+    //new Enemy(-350, enemyPosition.topRow, enemySpeed.three),
+    //new Enemy(-200, enemyPosition.middleRow, enemySpeed.four),
+    //new Enemy(-550, enemyPosition.middleRow, enemySpeed.two),
+    //new Enemy(-300, enemyPosition.middleRow, enemySpeed.seven),
+    //new Enemy(-850, enemyPosition.bottomRow, enemySpeed.three),
+    new Enemy(-400, enemyPosition.bottomRow, enemySpeed.eight)
   ];
 };
 
@@ -248,7 +251,7 @@ var enemySpeed = {
 //];
 
 
-var game = new Game();
+var game = new Game(document);
 
 // The player object is the variable called player
 // player is now in the game
@@ -260,14 +263,14 @@ var game = new Game();
 
 // Listen for the keyup event
 
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-    console.log("keyup");
-    game.player.handleInput(allowedKeys[e.keyCode]);
-});
+//document.addEventListener('keyup', function(e) {
+//    var allowedKeys = {
+//        37: 'left',
+//        38: 'up',
+//        39: 'right',
+//        40: 'down'
+//    };
+//    console.log("keyup");
+//    game.player.handleInput(allowedKeys[e.keyCode]);
+//});
 
