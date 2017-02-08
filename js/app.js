@@ -17,9 +17,10 @@ var Game = function(character) {
   // Construct Enemies -- Easy
   // TODO: Allow user to select a difficulty level.
   this.allEnemies = [
-    new Enemy(-350, enemyPosition.topRow, enemySpeed.three),
-    new Enemy(-550, enemyPosition.middleRow, enemySpeed.two),
-    new Enemy(-400, enemyPosition.bottomRow, enemySpeed.eight)
+    new Enemy(-350, enemyPosition.topRow, enemySpeed.seven),
+    new Enemy(-100, enemyPosition.topRow, enemySpeed.three),
+    new Enemy(-200, enemyPosition.middleRow, enemySpeed.two),
+    new Enemy(-100, enemyPosition.bottomRow, enemySpeed.eight)
   ];
 
   // Construct Enemies -- Harder
@@ -64,12 +65,13 @@ Game.prototype.render = function(){
   ctx.fillStyle = 'red';
 
   var scoreLine = "Score: " + this.player.score;
-
+  // Display the score.
   if (scoreLine !== null) {
     ctx.fillText(scoreLine, 100, 530 );
   }
 };
 
+// Check for collisions by checking if the player is occupying the same area as an enemy
 Game.prototype.checkForCollisions = function(){
     //console.log("checking for collisions");
     var x = this.player.currentX;
@@ -89,6 +91,11 @@ Game.prototype.checkForCollisions = function(){
       //    console.log("no collision");
       //}
     }
+};
+
+// Check to see if the game is over.
+Game.prototype.gameOver = function() {
+  return (this.player.score >= this.winningScore);
 };
 
 /**************************************************************

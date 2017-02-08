@@ -1,20 +1,25 @@
 /* Engine.js
- *  This file
- *  (1) draws the initial game board on the screen,
- *  and then
- *  (2) calls the update and render methods on both player and enemy objects which are defined in app.js.
+ *  This file provides the functionality to draw the initial game board on the screen,
+ *  and then start the continuous animation loop for the game through the use of
+ *  update and render methods.
  *
+ *  I created a Game object to further encapsulate Player and the Enemy array and provide
+ *  an easy way to start a new game by simply creating another Game object.
  *
+ *  I added a way to select a character which will immediately start the game.
+ *  After the game is over, a message is displayed to the user and a Play Again button is available.
+ *  The event handlers for these items are in the Engine. It would be good to try to separate those out.
  *
- * A game engine works by drawing the entire game screen over and over, kind of
- * like a flipbook you may have created as a kid. When your player moves across
- * the screen, it may look like just that image/character is moving or being
- * drawn but that is not the case. What's really happening is the entire "scene"
- * is being drawn over and over, presenting the illusion of animation.
+ *  Game Engine Description:
+ *  A game engine works by drawing the entire game screen over and over, kind of
+ *  like a flipbook you may have created as a kid. When your player moves across
+ *  the screen, it may look like just that image/character is moving or being
+ *  drawn but that is not the case. What's really happening is the entire "scene"
+ *  is being drawn over and over, presenting the illusion of animation.
  *
- * This engine is available globally via the Engine variable and it also makes
- * the canvas' context (ctx) object globally available to make writing app.js
- * a little simpler to work with.
+ *  This engine is available globally via the Engine variable and it also makes
+ *  the canvas' context (ctx) object globally available to make writing app.js
+ *  a little simpler to work with.
  */
 
 var Engine = (function(global) {
@@ -26,12 +31,12 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        collision = false,
-        lastTime;
-
-    var game;
-    var gameWidth = 505;
-    var gameHeight = 606;
+        lastTime,
+        game,
+        gameWidth = 505,
+        gameHeight = 606,
+        keyupHandler,
+        characterSrc;
 
     canvas.width = gameWidth;
     canvas.height = gameHeight;
@@ -39,31 +44,19 @@ var Engine = (function(global) {
     doc.body.appendChild(canvas);
     canvas.className = "hide";
 
-    var keyupHandler;
-    var characterSrc;
-
-
     // Select a character and start play
     document.querySelector('.grid').addEventListener('click', function(e) {
         e.preventDefault();
 
         // Get the character name
         if (e.target.tagName === 'IMG') {
-
-            console.log(e);
-            console.log(e.target);
-            var x = e.target;
-            var par = e.target.parentNode;
-            par.className = 'active';
-            console.log(x.getAttribute('src'));
-            characterSrc = x.getAttribute('src');
-            console.log("characterSrc = ", characterSrc);
+            characterSrc = e.target.getAttribute('src');
         }
-         // get rid of the start screen modal
+         // Get rid of the start screen modal
         var startModal = document.getElementById('start-play');
         startModal.className = "modal hide";
 
-        // pass the selected character to the Game constructor
+        // Pass the selected character to the Game constructor
         console.log(characterSrc);
         game = new Game(characterSrc);
 
@@ -99,11 +92,11 @@ var Engine = (function(global) {
     var playAgainButton = doc.getElementById("play-again-btn");
     playAgainButton.addEventListener("click", function(){
 
-        // get rid of modal
+        // Hide the modal
         var gameEndScreen = doc.getElementById("end-play");
         gameEndScreen.className = "modal hide";
 
-        console.log("clearing rect");
+        // Create a new game
         game = new Game(characterSrc);
         keyupHandler = function(e) {
             var allowedKeys = {
@@ -115,13 +108,12 @@ var Engine = (function(global) {
             console.log("keyup");
             game.player.handleInput(allowedKeys[e.keyCode]);
         };
-
         doc.addEventListener('keyup', keyupHandler);
-
         renderBoard();
         renderEntities();
         init();
 
+        // Show the game board
         canvas.className = "show";
     });
 
@@ -144,15 +136,15 @@ var Engine = (function(global) {
          * our update function since it may be used for smooth animation.
          */
 
-        if (game.player.score >= game.winningScore) {
+        if (game.gameOver()) {
 
-            // game over
-            console.log("you win");
+            // Hide the game board
             canvas.className = "hide";
-            //var gameStartScreen = document.getElementById("start");
-            //gameStartScreen.className = "hide";
+
+            // Show the screen that shows "You won" message and a Play Again button.
             var gameEndScreen = doc.getElementById("end-play");
             gameEndScreen.className = "modal show";
+
             // remove event handler
             doc.removeEventListener("keyup", keyupHandler);
 
@@ -279,17 +271,17 @@ var Engine = (function(global) {
         // noop
     }
 
-    function startGame(){
-        Resources.load([
-            'images/stone-block.png',
-            'images/water-block.png',
-            'images/grass-block.png',
-            'images/enemy-bug.png',
-            'images/char-boy.png',
-            'images/char-horn-girl.png'
-        ]);
-        Resources.onReady(init);
-    }
+    //function startGame(){
+    //    Resources.load([
+    //        'images/stone-block.png',
+    //        'images/water-block.png',
+    //        'images/grass-block.png',
+    //        'images/enemy-bug.png',
+    //        'images/char-boy.png',
+    //        'images/char-horn-girl.png'
+    //    ]);
+    //    Resources.onReady(init);
+    //}
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
