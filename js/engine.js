@@ -41,8 +41,13 @@ var Engine = (function(global) {
 
     var keyupHandler;
 
-    var startButton = doc.getElementById("start-btn");
-    startButton.addEventListener("click", function(){
+    var playButton = doc.getElementById("myBtn");
+    myBtn.addEventListener("click", function(){
+        // get rid of modal and start
+        var startModal = document.getElementById('myModal');
+        startModal.style.display = "none";
+        // get the selected character to pass to the Game constructor
+
         game = new Game();
         keyupHandler = function(e) {
               var allowedKeys = {
@@ -72,6 +77,10 @@ var Engine = (function(global) {
 
     var playAgainButton = doc.getElementById("play-again-btn");
     playAgainButton.addEventListener("click", function(){
+
+        // get rid of modal
+        var gameEndScreen = doc.getElementById("end-play");
+        gameEndScreen.className = "modal hide";
 
         console.log("clearing rect");
         game = new Game();
@@ -115,12 +124,15 @@ var Engine = (function(global) {
          */
 
         if (game.player.score >= game.winningScore) {
+
+            // game over
+
             console.log("you win");
             canvas.className = "hide";
-            var gameStartScreen = document.getElementById("start");
-            gameStartScreen.className = "hide";
-            var gameEndScreen = doc.getElementById("end");
-            gameEndScreen.className = "";
+            //var gameStartScreen = document.getElementById("start");
+            //gameStartScreen.className = "hide";
+            var gameEndScreen = doc.getElementById("end-play");
+            gameEndScreen.className = "modal show";
             doc.removeEventListener("keyup", keyupHandler);
             // remove event handler
 
