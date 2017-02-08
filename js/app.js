@@ -1,6 +1,7 @@
 
 // A game has a player, an array of enemies and a score.
 
+// Game Constructor
 var Game = function() {
 
   var score = 0;
@@ -256,11 +257,8 @@ var game = new Game();
 //  The up, down, left and right arrow keys are used for game play.
 //  Add an event handler to listen for the keyup event.
 
-// just passing it through?
-Game.prototype.handleInput = function(key){
-  console.log("game handle input");
-  this.player.handleInput(key);
-};
+
+// Listen for the keyup event
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
@@ -269,8 +267,7 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-   console.log("keyup");
-    game.handleInput(allowedKeys[e.keyCode]);
-    //player.handleInput(allowedKeys[e.keyCode]);
+    console.log("keyup");
+    game.player.handleInput(allowedKeys[e.keyCode]);
 });
 

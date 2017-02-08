@@ -35,16 +35,16 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
     canvas.className = "hide";
-    //var d = document.getElementById("div1");
-    //d.className += " otherclass";
+
     var startButton = doc.getElementById("start-btn");
     startButton.addEventListener("click", function(){
         canvas.className = "";
     });
-    //$("#start-btn").click(function() {
-    //    $("#start").hide();
-    //    $("#board").show();
-    //});
+
+    var playAgainButton = doc.getElementById("play-again-btn");
+    playAgainButton.addEventListener("click", function(){
+        canvas.className = "";
+    });
 
 
     /* This function serves as the kickoff point for the game loop itself
@@ -114,13 +114,6 @@ var Engine = (function(global) {
 
         game.update(dt);
 
-        //if (collision) {
-        //    // TODO: put this in the game
-        //    player.setPlayerToStartPosition();
-        //    collision = false;
-        //}
-        //game.update(dt);
-        //game.checkForCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -132,13 +125,8 @@ var Engine = (function(global) {
      */
     function updateEntities(dt) {
         game.update(dt);
-        //allEnemies.forEach(function(enemy) {
-        //    enemy.update(dt);
-        //});
-        //player.update();
+
     }
-
-
 
     /* This function initially draws the "game level", it will then call
      * the Entities function. Remember, this function is called every
