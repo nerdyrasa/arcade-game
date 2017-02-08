@@ -18,9 +18,9 @@ h1 {
     display: block;
 }
 
-#myModal {
-    display: block;
-}
+/*#start-play {*/
+    /*display: block;*/
+/*}*/
 
 /*  http://www.w3schools.com/howto/howto_css_modals.asp  */
 
@@ -84,6 +84,9 @@ ul li>img {
 .active {
     border: 5px yellow solid;
 }
+
+
+/* button */
 
 .button {
     background: #fff;

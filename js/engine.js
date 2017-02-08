@@ -41,11 +41,12 @@ var Engine = (function(global) {
 
     var keyupHandler;
 
-    var playButton = doc.getElementById("myBtn");
-    myBtn.addEventListener("click", function(){
-        // get rid of modal and start
-        var startModal = document.getElementById('myModal');
-        startModal.style.display = "none";
+    var playButton = doc.getElementById("start-play-btn");
+    playButton.addEventListener("click", function(){
+        // get rid of the start screen modal
+        var startModal = document.getElementById('start-play');
+        startModal.className = "modal hide";
+
         // get the selected character to pass to the Game constructor
 
         game = new Game();
