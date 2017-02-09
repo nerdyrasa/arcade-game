@@ -11,7 +11,7 @@ var Game = function(character) {
   this.collision = false;
 
   // Construct a player.
-  console.log("construct player with ", character);
+
   this.player = new Player(character);
 
   // Construct Enemies -- Easy
@@ -48,7 +48,7 @@ Game.prototype.update = function(dt) {
     this.player.setPlayerToStartPosition();
     this.collision = false;
   }
-  // TODO: Update score.
+
 };
 
 Game.prototype.render = function(){
@@ -58,38 +58,33 @@ Game.prototype.render = function(){
   });
   this.player.render();
 
-  ctx.font = '24pt Impact';
-  ctx.textAlign = 'center';
-  //ctx.strokeStyle = 'black';
-  //ctx.lineWidth = 3;
+  ctx.font = '20pt Sansita';
   ctx.fillStyle = 'red';
 
   var scoreLine = "Score: " + this.player.score;
+
   // Display the score.
   if (scoreLine !== null) {
-    ctx.fillText(scoreLine, 100, 530 );
+    ctx.fillText(scoreLine, 210, 80 );
   }
 };
 
 // Check for collisions by checking if the player is occupying the same area as an enemy
 Game.prototype.checkForCollisions = function(){
-    //console.log("checking for collisions");
+
     var x = this.player.currentX;
     var y = this.player.currentY;
-    //console.log("x, y ", this.player.currentX, this.player.currentY);
+
     for (var i = 0; i < this.allEnemies.length; i++) {
 
       var enemyX = this.allEnemies[i].currentX;
       var enemyY = this.allEnemies[i].currentY;
-      //console.log("enemy X, enemy Y = ", enemyX, enemyY);
+
       if ( x > (enemyX - 55) && x < (enemyX + 55) && y > (enemyY - 50) && y < (enemyY + 50) ) {
-        console.log("collision");
         this.collision = true;
         break;
       }
-      //else {
-      //    console.log("no collision");
-      //}
+
     }
 };
 
@@ -234,9 +229,3 @@ Player.prototype.setPlayerToStartPosition = function() {
   this.currentX = this.initialX;
   this.currentY = this.initialY;
 };
-
-
-
-
-
-

@@ -41,8 +41,9 @@ var Engine = (function(global) {
     canvas.width = gameWidth;
     canvas.height = gameHeight;
 
-    doc.body.appendChild(canvas);
-    canvas.className = "hide";
+    var gameBoard = document.getElementById("game-board");
+    gameBoard.appendChild(canvas);
+    gameBoard.className = "hide";
 
     // Select a character and start play
     document.querySelector('.grid').addEventListener('click', function(e) {
@@ -85,7 +86,7 @@ var Engine = (function(global) {
             'images/char-princess-girl.png'
         ]);
         Resources.onReady(init);
-        canvas.className = "show";
+        gameBoard.className = "show";
 
     });
 
@@ -114,7 +115,7 @@ var Engine = (function(global) {
         init();
 
         // Show the game board
-        canvas.className = "show";
+        gameBoard.className = "show";
     });
 
 
@@ -138,10 +139,10 @@ var Engine = (function(global) {
 
         if (game.gameOver()) {
 
-            // Hide the game board
-            canvas.className = "hide";
+            // Hide the div that contains the game board
+            gameBoard.className = "hide";
 
-            // Show the screen that shows "You won" message and a Play Again button.
+            // Show the screen that shows "You win" message and a Play Again button.
             var gameEndScreen = doc.getElementById("end-play");
             gameEndScreen.className = "modal show";
 

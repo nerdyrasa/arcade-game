@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Sansita', sans-serif;
     font-size: 16px;
@@ -8,6 +12,12 @@ body {
 h1 {
     letter-spacing: 5px;
     font-size: 3em;
+}
+
+p {
+    letter-spacing: 1px;
+    margin: 10px 30px;
+    text-align: left;
 }
 
 .hide {
@@ -39,7 +49,7 @@ h1 {
     margin: 5% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 60%; /* Could be more or less, depending on screen size */
 }
 
 /* Select a character for game play */
@@ -52,12 +62,22 @@ ul {
 ul li {
     list-style: none;
     display: inline-block;
+    border: 3px solid rgba(255,255,0,0);
 }
+
+ul li:hover {
+    border: 3px solid rgba(255,255,0,1);
+}
+
+
 
 ul li>img {
     width: 100px;
     border: 1px solid #FCF4DC;
+
 }
+
+
 
 /* button */
 
