@@ -82,6 +82,7 @@ ul li>img {
 /* button */
 
 .button {
+    -webkit-appearance: none;
     background: #fff;
     margin-top: 2em;
     border-radius: 4px;
@@ -95,10 +96,12 @@ ul li>img {
 }
 
 .button:hover {
+    -webkit-appearance: none;
     background-color: gray;
     color: #fff;
 }
 
 .key {
+    -webkit-appearance: none;
     padding: 15px 30px;
 }
