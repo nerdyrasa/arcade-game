@@ -42,7 +42,14 @@ var Engine = (function(global) {
     canvas.height = gameHeight;
 
     var gameBoard = document.getElementById("game-board");
+
+    //var keyPad = document.getElementById("key-pad");
+    var keypad = document.querySelector("keypad");
     gameBoard.appendChild(canvas);
+    //gameBoard.prependChild(canvas);
+
+    //gameBoard.insertBefore(canvas, keypad);
+    //gameBoard.insertBefore(keyPad, canvas);
     gameBoard.className = "hide";
 
     // Select a character and start play
@@ -62,11 +69,13 @@ var Engine = (function(global) {
         game = new Game(characterSrc);
 
         keyupHandler = function(e) {
+
+              console.log(this);
               var allowedKeys = {
                   37: 'left',
                   38: 'up',
                   39: 'right',
-                  40: 'down'
+                  40: 'down',
               };
               console.log("keyup");
               game.player.handleInput(allowedKeys[e.keyCode]);

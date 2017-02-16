@@ -22,13 +22,18 @@
             <li><img src="images/char-princess-girl.png" alt="Princess Character"></li>
         </ul>
 
-        <p>To Play: Once you select a character, use your keyboard arrow keys to cross the bug infested stones to the water. You need to safely make your way to the water three times to win the game. Good luck!</p>
+        <p>To Play: Once you select a character, use either your keyboard arrow keys or on-screen controls to cross the bug infested stones to the water. You need to safely make your way to the water three times to win the game. Good luck!</p>
         <!--<button id="start-play-btn" class=" button">Play</button>-->
     </div>
 </div>
 
 <div id="game-board" class="hide">
-
+    <div class="keypad">
+        <button class="key" id="up">⯅</button>
+        <button class="key" id="left">⯇</button>
+        <button class="key" id="right">⯈</button>
+        <button class="key" id="down">⯆</button>
+    </div>
 </div>
 
 <!--The Modal to display "You won" message and "Play Again" button -->
@@ -42,7 +47,8 @@
 </div>
 
 <script src="js/resources.js"></script>
-<script src="js/app.js"></script>
+
 <script src="js/engine.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
