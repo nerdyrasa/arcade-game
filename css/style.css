@@ -77,9 +77,10 @@ ul li>img {
 
 }
 
-
-
 /* button */
+button {
+    -webkit-appearance: none;
+}
 
 .button {
     -webkit-appearance: none;
