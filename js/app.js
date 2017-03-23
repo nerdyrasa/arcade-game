@@ -231,31 +231,4 @@ Player.prototype.setPlayerToStartPosition = function() {
   this.currentY = this.initialY;
 };
 
-// This function translates the button pressed to its corresponding keyboard function
-// and triggers the keyup event for processing.
 
-var setUpKeyPadHandler = function() {
-
-  var keypad = document.querySelector(".keypad");
-
-  keypad.addEventListener("click", function (e) {
-
-    var buttonPressed = e.target.id;
-
-    // trigger an event with dispatchEvent
-    var eventKeyup = new Event('keyup');
-
-    if (buttonPressed === 'left'){
-      eventKeyup.keyCode = 37;
-    } else if (buttonPressed === 'up'){
-      eventKeyup.keyCode = 38;
-    } else if (buttonPressed === 'right'){
-      eventKeyup.keyCode = 39;
-    } else if (buttonPressed === 'down'){
-      eventKeyup.keyCode = 40;
-    }
-    document.dispatchEvent(eventKeyup);
-  });
-};
-
-window.onload = setUpKeyPadHandler;
