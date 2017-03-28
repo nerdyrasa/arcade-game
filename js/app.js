@@ -4,15 +4,20 @@
 
  ***************************************************************/
 
-// Game Constructor
-var Game = function (character) {
 
-  this.winningScore = 3;
+// Game Constructor serves to initialize the game object to a known initial state
+// Use the new keyword to invoke the Game function as a constructor.
+
+
+
+var Game = function (options) {
+
+  this.winningScore = options.winningScore;
   this.collision = false;
 
   // Construct a player.
 
-  this.player = new Player(character);
+  this.player = new Player(options.character);
 
   // Construct Enemies -- Easy
   // TODO: Allow user to select a difficulty level.
@@ -36,6 +41,8 @@ var Game = function (character) {
 
 };
 
+// Prototypes are used in JS as a convenient means of defining properties and functionality that will be
+// automatically applied to instances of objects
 Game.prototype = {
   update: function (dt) {
     this.allEnemies.forEach(function (enemy) {
